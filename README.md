@@ -35,7 +35,7 @@
 | ✔️ Code-splitting | React.lazy()와 import()로 동적 임포트한 코드가 별도 번들로 분리되는지 확인 |
 | ✔️ main JS 크기 | 최종 번들된 JS 파일 크기 |
 | ✔️ Splitted JS 크기 | 코드 스플리팅에 의해 분리된 JS 파일 크기 |
-| ✔️ index.html 크기 | 3번들링된 html 파일 크기 |
+| ✔️ index.html 크기 | 번들링된 html 파일 크기 |
 | ✔️ CSS 크기 | Sass/SCSS 파일이 번들링되어 생성된 CSS 번들 파일 크기 |
 | ✔️ 이미지 크기  | 번들링된 이미지 파일 크기 |
 | ✔️ 빌드 시간 | 번들러가 번들링을 수행하는 데 걸린 시간 |
