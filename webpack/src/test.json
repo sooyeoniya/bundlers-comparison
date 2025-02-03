@@ -1,0 +1,7 @@
+{
+  "name": "번들러 테스트(Bundler Test)",
+  "features": [
+    "JSON Import",
+    "Test Test Test"
+  ]
+}
