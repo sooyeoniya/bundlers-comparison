@@ -34,7 +34,7 @@
 | ✔️ Tree-shaking | 사용되지 않는 코드가 제거되는지 확인 |
 | ✔️ Code-splitting | React.lazy()와 import()로 동적 임포트한 코드가 별도 번들로 분리되는지 확인 |
 | ✔️ main JS 크기 | 최종 번들된 JS 파일 크기 |
-| ✔️ Splitted JS 크기 | 코드 스플리팅에 의해 분리된 JS 파일 크기 |
+| ✔️ Chunk(Splitted) JS 크기 | 코드 스플리팅에 의해 분리된 Chunk JS 파일 크기 |
 | ✔️ index.html 크기 | 번들링된 html 파일 크기 |
 | ✔️ CSS 크기 | Sass/SCSS 파일이 번들링되어 생성된 CSS 번들 파일 크기 |
 | ✔️ 이미지 크기  | 번들링된 이미지 파일 크기 |
@@ -82,8 +82,11 @@ cd webpack
 # React
 npm install react react-dom
 
-# React, TypeScript와 관련된 패키지, Webpack과 관련된 로더 및 플러그인
-npm install -D typescript @types/node @types/react @types/react-dom webpack webpack-cli webpack-bundle-analyzer ts-loader css-loader sass sass-loader html-webpack-plugin mini-css-extract-plugin clean-webpack-plugin
+# React, TypeScript, Sass
+npm install -D @types/react @types/react-dom typescript @types/node sass 
+
+# Webpack
+npm install -D webpack webpack-cli webpack-bundle-analyzer ts-loader css-loader sass-loader html-webpack-plugin mini-css-extract-plugin clean-webpack-plugin
 ```
 
 2️⃣ **실행**
@@ -92,7 +95,38 @@ npm run build # 프로덕션 빌드 및 번들 분석
 time npm run build # 프로덕션 빌드 및 번들 분석 + 빌드 시간 측정
 ```
 
+3️⃣ **번들링 파일 시각화**
+```
+bundle-report.html 파일 브라우저로 실행해서 확인
+```
+
 ### ✔️ Rollup
+
+1️⃣ **필요한 의존성 패키지 설치**
+```sh
+# rollup 폴더로 이동
+cd rollup
+
+# React
+npm install react react-dom
+
+# React, TypeScript, Sass
+npm install -D @types/react @types/react-dom typescript @types/node sass
+
+# Rollup
+npm install -D rollup @rollup/plugin-node-resolve @rollup/plugin-commonjs @rollup/plugin-typescript @rollup/plugin-json @rollup/plugin-url @rollup/plugin-replace @rollup/plugin-terser rollup-plugin-postcss rollup-plugin-visualizer @rollup/plugin-html
+```
+
+2️⃣ **실행**
+```sh
+npm run build # 프로덕션 빌드 및 번들 분석
+time npm run build # 프로덕션 빌드 및 번들 분석 + 빌드 시간 측정
+```
+
+3️⃣ **번들링 파일 시각화**
+```
+bundle-analysis.html 파일 브라우저로 실행해서 확인
+```
 
 ### ✔️ esbuild
 
@@ -105,25 +139,25 @@ time npm run build # 프로덕션 빌드 및 번들 분석 + 빌드 시간 측�
 ### 🔗 전체 비교
 | 항목                        | Webpack                     | Rollup                          | esbuild                    | SWC                          | Vite                          |
 | --------------------------- | --------------------------- | ------------------------------- | -------------------------- | ---------------------------- | ----------------------------- |
-| **버전(version)**            | 5.97.1 | | | | |
-| **TypeScript 지원**          | ✅ 기본 지원   | 플러그인 필요 (rollup-plugin-typescript2) | 기본 지원                  | 기본 지원                    | 기본 지원                     |
-| **React 지원**               | ✅ 기본 지원   | 플러그인 필요 (rollup-plugin-react) | 기본 지원                  | 플러그인 필요 (swc-loader 등) | 기본 지원                     |
-| **JSON 처리**         | ✅ 기본 지원  | 플러그인 필요 (rollup-plugin-json) | 기본 지원                  | 플러그인 필요 (swc-plugin-json) | 기본 지원                     |
-| **이미지 처리**              | ✅ 원래는 로더(file-loader, url-loader)가 필요했으나 v5부터는 내장된 [asset-modules](https://webpack.kr/guides/asset-modules/)로 가능! | 플러그인 필요 (rollup-plugin-image) | 플러그인 필요 (esbuild-plugin-image) | 플러그인 필요 (swc-loader) | 기본 지원                     |
-| **CSS 처리**                 | 🔼 로더 필요 (sass-loader, css-loader) | 플러그인 필요 (rollup-plugin-postcss) | 플러그인 필요 (esbuild-plugin-sass) | 플러그인 필요 (swc-plugin-sass) | 기본 지원 (esbuild 기반)      |
-| **Tree-shaking**             | ✅ 기본 지원    | 기본 지원                        | 기본 지원                  | 기본 지원                    | 기본 지원                     |
-| **Code-splitting**      | ✅ 기본 지원   | 기본 지원                        | 기본 지원                  | 기본 지원                    | 기본 지원                     |
-| **main JS 크기** | 180 KiB |   |  |  |     |
-| **Splitted JS 크기** | 248 bytes |   |  |  |     |
-| **index.html 크기** | 329 bytes |   |  |  |     |
-| **CSS 크기** | 161 bytes |   |  |  |     |
-| **이미지 크기**  | 2.71 MiB |   |  |  |     |
-| **평균 빌드 시간(s)** | 3.063 | | | | |
-| **평균 user mode 작업 시간(s)** | 7.47 | | | | |
-| **평균 system mode 작업 시간(s)** | 0.47 | | | | |
-| **평균 CPU 사용률(%)** | 189 | | | | |
-| **평균 전체 실행 시간(s)** | 4.205 | | | | |
-| **Configuration 길이 (LoC)** | 57 |  |  | | |
+| **버전(version)**            | ✔️ 5.97.1 | ✔️ 4.34.1 | ✔️  | ✔️  | ✔️  |
+| **TypeScript 지원**          | ✅ 기본 지원   | 🔼 플러그인 필요 (rollup/plugin-typescript) | 기본 지원                  | 기본 지원                    | 기본 지원                     |
+| **React 지원**               | ✅ 기본 지원   | 🔼 플러그인 필요 (rollup/plugin-typescript) | 기본 지원                  | 플러그인 필요 (swc-loader 등) | 기본 지원                     |
+| **JSON 처리**         | ✅ 기본 지원  | 🔼 플러그인 필요 (rollup-plugin-json) | 기본 지원                  | 플러그인 필요 (swc-plugin-json) | 기본 지원                     |
+| **이미지 처리**              | ✅ 원래는 로더(file-loader, url-loader)가 필요했으나 v5부터는 내장된 [asset-modules](https://webpack.kr/guides/asset-modules/)로 가능! | 🔼 플러그인 필요 (rollup/plugin-image, rollup/plugin-url, rollup/plugin-image-files) | 플러그인 필요 (esbuild-plugin-image) | 플러그인 필요 (swc-loader) | 기본 지원                     |
+| **CSS 처리**                 | 🔼 로더 필요 (sass-loader, css-loader) | 🔼 플러그인 필요 (rollup-plugin-postcss) | 플러그인 필요 (esbuild-plugin-sass) | 플러그인 필요 (swc-plugin-sass) | 기본 지원 (esbuild 기반)      |
+| **Tree-shaking**             | ✅ 기본 지원    | ✅ 기본 지원                        | 기본 지원                  | 기본 지원                    | 기본 지원                     |
+| **Code-splitting**      | ✅ 기본 지원   | ✅ 기본 지원                        | 기본 지원                  | 기본 지원                    | 기본 지원                     |
+| **메인 JS 번들 크기** | 180 KiB | 179 KiB |  |  |     |
+| **Chunk(Splitted) JS 크기** | 248 bytes | 163 bytes |  |  |     |
+| **index.html 크기** | 329 bytes | 331 bytes |  |  |     |
+| **CSS 크기** | 161 bytes | 148 bytes |  |  |     |
+| **이미지 크기**  | 2.71 MiB | 2.71 MiB |  |  |     |
+| **평균 빌드 시간(s)** | 3.1 | 3.2 | | | |
+| **평균 user mode 작업 시간(s)** | 7.47 | 7.72 | | | |
+| **평균 system mode 작업 시간(s)** | 0.47 | 0.60 | | | |
+| **평균 CPU 사용률(%)** | 189 | 201 | | | |
+| **평균 전체 실행 시간(s)** | 4.205 | 4.123 | | | |
+| **Configuration 길이 (LoC)** | 57 | 73 |  | | |
 
 <!-- | **이미지 압축 및 최적화 지원** | | | | | | -->
 <!-- | **HMR 지원(개발 모드에서만 테스트 가능)** | 기본 지원 | 플러그인 필요 (rollup-plugin-hot) | 플러그인 필요 (esbuild-plugin-hmr) | 기본 지원 | 기본 지원 | -->
