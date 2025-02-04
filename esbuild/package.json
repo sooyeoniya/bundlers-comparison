@@ -1,0 +1,28 @@
+{
+  "name": "esbuild",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@craftamap/esbuild-plugin-html": "^0.8.0",
+    "@types/node": "^22.13.1",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "esbuild": "^0.24.2",
+    "esbuild-sass-plugin": "^3.3.1",
+    "sass": "^1.83.4",
+    "typescript": "^5.7.3"
+  }
+}
