@@ -30,23 +30,22 @@
 | ✔️ React 지원 | JSX/TSX가 정상적으로 컴파일되는지 확인 |
 | ✔️ JSON 처리 | import data from './data.json' 가능 여부 및 번들 포함 방식 확인 |
 | ✔️ 이미지 처리 | .png, .jpg, .svg 등 이미지 파일 임포트 및 최적화 여부 확인|
-| ✔️ CSS 처리 | Sass/SCSS 지원 여부 및 변환 결과 확인 |
+| ✔️ CSS 전처리기 처리 | Sass/SCSS 지원 여부 및 변환 결과 확인 |
 | ✔️ Tree-shaking | 사용되지 않는 코드가 제거되는지 확인 |
 | ✔️ Code-splitting | React.lazy()와 import()로 동적 임포트한 코드가 별도 번들로 분리되는지 확인 |
 | ✔️ main JS 크기 | 최종 번들된 JS 파일 크기 |
 | ✔️ Chunk(Splitted) JS 크기 | 코드 스플리팅에 의해 분리된 Chunk JS 파일 크기 |
 | ✔️ index.html 크기 | 번들링된 html 파일 크기 |
 | ✔️ CSS 크기 | Sass/SCSS 파일이 번들링되어 생성된 CSS 번들 파일 크기 |
-| ✔️ 이미지 크기  | 번들링된 이미지 파일 크기 |
-| ✔️ 빌드 시간 | 번들러가 번들링을 수행하는 데 걸린 시간 |
+| ✔️ 이미지 크기 | 번들링된 이미지 파일 크기 |
 | ✔️ user mode 작업 시간 | CPU가 사용자 프로세스(user mode)에서 작업한 시간 |
 | ✔️ system mode 작업 시간 | CPU가 커널 모드(system mode)에서 작업한 시간 |
 | ✔️ CPU 사용률 | CPU 사용률(멀티코어를 사용한 경우 100%를 초과할 수 있음) |
 | ✔️ 전체 실행 시간 | 실제 경과 시간(Elapsed Time), 즉 npm run build 명령어가 실행된 후 종료될 때까지의 전체 시간 |
 | ✔️ Configuration Size (LoC) | 번들러 설정 파일(xxx.config.js)의 코드 라인 수 비교, LoC가 클수록 번들러 설정 복잡도 큰 것을 의미함 |
 
-<!-- | ✔️ 이미지 압축 및 최적화 지원 | | -->
-<!-- | ✔️ HMR 지원 | Hot Module Replacement 지원 여부 확인 | -->
+<!-- TODO: | ✔️ 이미지 압축 및 최적화 지원 | | -->
+<!-- TODO: | ✔️ HMR 지원(개발 모드) | Hot Module Replacement 지원 여부 확인 | -->
 
 ## 🔹 테스트 환경 구성
 
@@ -64,10 +63,16 @@
 - **npm:** `10.8.2`
 
 ### ✔️ 테스트 프로젝트 구성 (공통)
-
-
-```
-/bundlers-comparison
+```sh
+/src
+├── App.tsx            # React 애플리케이션의 메인 컴포넌트 (엔트리 파일에서 불러옴)
+├── LazyComponent.tsx  # React Lazy Loading을 테스트할 컴포넌트 (코드 스플리팅 확인)
+├── index.html         # 번들링된 JS/CSS를 로드하는 기본 HTML 파일
+├── main.scss          # 프로젝트 스타일을 설정하는 SCSS 파일 (빌드시 CSS로 변환)
+├── math.ts            # 숫자 연산 관련 유틸리티 함수 (트리 셰이킹 테스트 가능)
+├── my-pet.jpg         # 이미지 리소스 (애셋 번들링 및 최적화 테스트용)
+├── test.json          # JSON 데이터 파일 (JSON import 지원 테스트)
+└── types.d.ts         # TypeScript 타입 정의 파일 (번들링 시 포함되지 않음)
 ```
 
 ## 🔹 테스트 실행
@@ -165,6 +170,31 @@ dist/metafile.json 을 통해 번들 분석 가능 (json 데이터로 정리)
 
 ### ✔️ SWC
 
+1️⃣ **필요한 의존성 패키지 설치**
+```sh
+# swc 폴더로 이동
+cd swc
+
+# React
+npm install react react-dom
+
+# React, TypeScript, Sass
+npm install -D @types/react @types/react-dom typescript @types/node sass
+
+# swc
+npm install -D @swc/cli @swc/core
+```
+
+2️⃣ **실행**
+```sh
+npm run build # 프로덕션 빌드 및 번들 분석
+time npm run build # 프로덕션 빌드 및 번들 분석 + 빌드 시간 측정
+```
+
+3️⃣ **번들링 결과 분석**
+```
+
+```
 
 ### ✔️ Vite
 
@@ -174,15 +204,15 @@ dist/metafile.json 을 통해 번들 분석 가능 (json 데이터로 정리)
 ### 🔗 전체 비교
 | 항목                        | Webpack                     | Rollup                          | esbuild                    | SWC                          | Vite                          |
 | --------------------------- | --------------------------- | ------------------------------- | -------------------------- | ---------------------------- | ----------------------------- |
-| **버전(version)**            | ✔️ 5.97.1 | ✔️ 4.34.1 | ✔️ 0.24.2 | ✔️  | ✔️  |
-| **TypeScript 지원**          | ✅ 기본 지원   | 🔼 플러그인 필요 (rollup/plugin-typescript) | ✅ 기본 지원                  | 기본 지원                    | 기본 지원                     |
-| **React 지원**               | ✅ 기본 지원   | 🔼 플러그인 필요 (rollup/plugin-typescript) | ✅ 기본 지원                  | 플러그인 필요 (swc-loader 등) | 기본 지원                     |
-| **JSON 처리**         | ✅ 기본 지원  | 🔼 플러그인 필요 (rollup-plugin-json) | ✅ 기본 지원                  | 플러그인 필요 (swc-plugin-json) | 기본 지원                     |
-| **이미지 처리**              | ✅ 원래는 로더(file-loader, url-loader)가 필요했으나 v5부터는 내장된 [asset-modules](https://webpack.kr/guides/asset-modules/)로 가능! | 🔼 플러그인 필요 (rollup/plugin-image, rollup/plugin-url, rollup/plugin-image-files) | ✅ 기본 지원 | 플러그인 필요 (swc-loader) | 기본 지원                     |
-| **CSS 처리**                 | 🔼 로더 필요 (sass-loader, css-loader) | 🔼 플러그인 필요 (rollup-plugin-postcss) | 🔼 플러그인 필요 (esbuild-sass-plugin) | 플러그인 필요 (swc-plugin-sass) | 기본 지원 (esbuild 기반)      |
-| **Tree-shaking**             | ✅ 기본 지원    | ✅ 기본 지원                        | ✅ 기본 지원                  | 기본 지원                    | 기본 지원                     |
-| **Code-splitting**      | ✅ 기본 지원   | ✅ 기본 지원                        | ✅ 기본 지원                  | 기본 지원                    | 기본 지원                     |
-| **번들(dist 폴더) 크기(MB)** | 3.4 | 3.1 | 2.9 | | | |
+| **버전(version)**            | ✔️ 5.97.1 | ✔️ 4.34.1 | ✔️ 0.24.2 | ✔️ 1.10.14 | ✔️  |
+| **TypeScript 지원**          | ✅ 기본 지원   | 🔼 플러그인 필요 (rollup/plugin-typescript) | ✅ 기본 지원                  | ✅ 기본 지원                    | 기본 지원                     |
+| **React 지원**               | ✅ 기본 지원   | 🔼 플러그인 필요 (rollup/plugin-typescript) | ✅ 기본 지원                  | ✅ 기본 지원 | 기본 지원                     |
+| **JSON 처리**         | ✅ 기본 지원  | 🔼 플러그인 필요 (rollup-plugin-json) | ✅ 기본 지원                  | ✅ 기본 지원 | 기본 지원                     |
+| **이미지 처리**              | ✅ 원래는 로더(file-loader, url-loader)가 필요했으나 v5부터는 내장된 [asset-modules](https://webpack.kr/guides/asset-modules/)로 가능! | 🔼 플러그인 필요 (rollup/plugin-image, rollup/plugin-url, rollup/plugin-image-files) | ✅ 기본 지원 | ❌ SWC 만으로는 이미지 처리 불가 (공식적인 플러그인 없음), Webpack, Rollup, esbuild, Vite 등 다른 빌드 도구와 함께 사용해야 함 | 기본 지원                     |
+| **CSS 전처리기 처리**                 | 🔼 로더 필요 (sass-loader, css-loader) | 🔼 플러그인 필요 (rollup-plugin-postcss) | 🔼 플러그인 필요 (esbuild-sass-plugin) | ❌ SCSS(Sass) 변환 지원 안함, 따라서 SCSS 파일을 번들링하려면 별도로 처리 필요 (sass 패키지로 변환하거나 다른 빌드 도구 함께 사용해야 함) | 기본 지원 (esbuild 기반)      |
+| **Tree-shaking**             | ✅ 기본 지원    | ✅ 기본 지원                        | ✅ 기본 지원                  | ✅ 기본 지원                    | 기본 지원                     |
+| **Code-splitting**      | ✅ 기본 지원   | ✅ 기본 지원                        | ✅ 기본 지원                  | ✅ 기본 지원                    | 기본 지원                     |
+| **번들(dist 폴더) 크기(MB)** | 3.4 | 3.1 | 2.9 |  |  |
 | **메인 JS 번들 크기(KiB)** | 180 | 179 | 181 |  |     |
 | **Chunk(Splitted) JS 크기(bytes)** | 248 | 163 | 190 |  |     |
 | **index.html 크기(bytes)** | 329 | 331 | 326 |  |     |
@@ -194,8 +224,8 @@ dist/metafile.json 을 통해 번들 분석 가능 (json 데이터로 정리)
 | **평균 전체 실행 시간(s)** | 4.205 | 4.123 | 0.714 | | |
 | **Configuration 길이 (LoC)** | 57 | 73 | 58 | | |
 
-<!-- | **이미지 압축 및 최적화 지원** | | | | | | -->
-<!-- | **HMR 지원(개발 모드에서만 테스트 가능)** | 기본 지원 | 플러그인 필요 (rollup-plugin-hot) | 플러그인 필요 (esbuild-plugin-hmr) | 기본 지원 | 기본 지원 | -->
+<!-- TODO: | **이미지 압축 및 최적화 지원** | | | | | | -->
+<!-- TODO: | **HMR 지원(개발 모드에서만 테스트 가능)** | 기본 지원 | 플러그인 필요 (rollup-plugin-hot) | 플러그인 필요 (esbuild-plugin-hmr) | 기본 지원 | 기본 지원 | -->
 
 ## 🔹 추가 확장 테스트
 
