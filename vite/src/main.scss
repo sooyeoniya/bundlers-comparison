@@ -1,0 +1,19 @@
+@use 'sass:color';
+
+$primary-color: #4caf50;
+$font-size: 16px;
+$pad-size: 20px;
+
+.app-content {
+  font-size: $font-size;
+  color: $primary-color;
+  text-align: center;
+  padding: $pad-size;
+}
+
+.lazy-content {
+  font-size: $font-size + 2px;
+  color: color.scale($primary-color, $lightness: -10%);
+  font-weight: bold;
+  margin-top: $pad-size;
+}

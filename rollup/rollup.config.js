@@ -23,6 +23,8 @@ export default {
     dir: 'dist',
     format: 'es',
     entryFileNames: '[name].[hash].js',
+    chunkFileNames: '[name].[hash].js',
+    assetFileNames:  '[name].[hash][extname]',
   },
   plugins: [
     resolve({
@@ -67,7 +69,9 @@ export default {
     terser(),
     visualizer({
       filename: 'dist/bundle-analysis.html',
-      open: false
+      open: false,
+      gzipSize: true,
+      brotliSize: true,
     })
   ]
 };
