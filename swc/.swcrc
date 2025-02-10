@@ -1,0 +1,40 @@
+{
+  "$schema": "https://swc.rs/schema.json",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "transform": {
+      "react": {
+        "runtime": "automatic",
+        "development": false,
+        "refresh": false
+      }
+    },
+    "target": "es2020",
+    "loose": false,
+    "minify": { 
+      "compress": {
+        "unused": true,
+        "dead_code": true
+      },
+      "mangle": true
+    }
+  },
+  "module": {
+    "type": "es6",
+    "strict": true, 
+    "strictMode": true,
+    "lazy": true,
+    "noInterop": false
+  },
+  "minify": true,
+  "sourceMaps": false,
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "swc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run clean && npm run build:bundle && npm run build:css && npm run build:html && npm run build:assets",
+    "build:bundle": "spack",
+    "build:css": "sass src/main.scss dist/main.css --no-source-map --style compressed",
+    "build:html": "node scripts/process-html.js",
+    "build:assets": "cp src/*.{jpg,jpeg,png,gif,svg} dist/ 2>/dev/null || true",
+    "clean": "rm -rf dist/*"
+  },  
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.6.0",
+    "@swc/core": "^1.10.14",
+    "@types/node": "^22.13.1",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "sass": "^1.83.4",
+    "typescript": "^5.7.3"
+  }
+}
