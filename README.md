@@ -19,7 +19,6 @@
 | `Webpack` | 가장 범용적이고, 확장성이 좋은 번들러. 모든 환경(브라우저, Node.js, etc.)에서 대응 가능하며, 커스텀이 용이함.                                                                |
 | `Rollup`  | ESM(ES Module) 지원이 최적화 되어있음. Vite의 빌드 단계에서 Rollup을 사용해 코드 최적화 및 번들링을 수행함.                                                                  |
 | `esbuild` | Go 기반의 매우 빠른 번들러. Vite의 개발 환경에서 esbuild를 트랜스파일러로 사용함.                                                                                            |
-| `SWC`     | Rust 기반의 매우 빠른 컴파일러 + 번들러. Next.js가 babel 대신 채택한 트랜스파일러(컴파일러)임. ([Next.js Compiler](https://nextjs-ko.org/docs/architecture/nextjs-compiler)) |
 | `Vite`    | 번들러 자체가 아니라, 기존 번들러를 이용해 번들링 최적화 하는 빌드 도구임. 다만, 기존 번들러와 비교를 많이 하기도 하고, 최근 활용도가 가장 높기 때문에 채택함.               |
 
 ## 🔹 번들러 비교 지표
@@ -168,34 +167,6 @@ time npm run build # 프로덕션 빌드 및 번들 분석 + 빌드 시간 측�
 dist/metafile.json 을 통해 번들 분석 가능 (json 데이터로 정리)
 ```
 
-### ✔️ SWC
-
-1️⃣ **필요한 의존성 패키지 설치**
-```sh
-# swc 폴더로 이동
-cd swc
-
-# React
-npm install react react-dom
-
-# React, TypeScript, Sass
-npm install -D @types/react @types/react-dom typescript @types/node sass
-
-# swc
-npm install -D @swc/cli @swc/core
-```
-
-2️⃣ **실행**
-```sh
-npm run build # 프로덕션 빌드 및 번들 분석
-time npm run build # 프로덕션 빌드 및 번들 분석 + 빌드 시간 측정
-```
-
-3️⃣ **번들링 결과 분석**
-```
-
-```
-
 ### ✔️ Vite
 
 1️⃣ **필요한 의존성 패키지 설치**
@@ -227,27 +198,27 @@ bundle-analysis.html 파일 브라우저로 실행해서 확인 (시각화)
 ## 🔹 분석 결과
 
 ### 🔗 전체 비교
-| 항목                        | Webpack                     | Rollup                          | esbuild                    | SWC                          | Vite                          |
-| --------------------------- | --------------------------- | ------------------------------- | -------------------------- | ---------------------------- | ----------------------------- |
-| **버전(version)**            | ✔️ 5.97.1 | ✔️ 4.34.1 | ✔️ 0.24.2 | ✔️ 1.10.14 | ✔️ 6.0.11 |
-| **TypeScript 지원**          | ✅ 기본 지원   | 🔼 플러그인 필요 (rollup/plugin-typescript) | ✅ 기본 지원                  | ✅ 기본 지원                    | ✅ 기본 지원                     |
-| **React 지원**  | ✅ 기본 지원   | 🔼 플러그인 필요 (rollup/plugin-typescript) | ✅ 기본 지원  | ✅ 기본 지원 | 🔼 플러그인 필요 (@vitejs/plugin-react)                     |
-| **JSON 처리**         | ✅ 기본 지원  | 🔼 플러그인 필요 (rollup-plugin-json) | ✅ 기본 지원                  | ✅ 기본 지원 | ✅ 기본 지원 (따로 설정할 필요 없음)   |
-| **이미지 처리**              | ✅ 원래는 로더(file-loader, url-loader)가 필요했으나 v5부터는 내장된 [asset-modules](https://webpack.kr/guides/asset-modules/)로 가능! | 🔼 플러그인 필요 (rollup/plugin-image, rollup/plugin-url, rollup/plugin-image-files) | ✅ 기본 지원 | ❌ SWC 만으로는 이미지 처리 불가 (공식적인 플러그인 없음), Webpack, Rollup, esbuild, Vite 등 다른 빌드 도구와 함께 사용해야 함 | ✅ 기본 지원 (따로 설정할 필요 없음)                     |
-| **CSS 전처리기 처리**                 | 🔼 로더 필요 (sass-loader, css-loader) | 🔼 플러그인 필요 (rollup-plugin-postcss) | 🔼 플러그인 필요 (esbuild-sass-plugin) | ❌ SCSS(Sass) 변환 지원 안함, 따라서 SCSS 파일을 번들링하려면 별도로 처리 필요 (sass 패키지로 변환하거나 다른 빌드 도구 함께 사용해야 함) | ✅ 기본 지원 (esbuild 기반)      |
-| **Tree-shaking**             | ✅ 기본 지원    | ✅ 기본 지원                        | ✅ 기본 지원                  | ✅ 기본 지원                    | ✅ 기본 지원 (ES 모듈을 지원하기 때문에 tree shaking이 기본적으로 활성화되어 있어서 따로 설정 필요 없음, minify 옵션으로 제어 가능)                    |
-| **Code-splitting**      | ✅ 기본 지원   | ✅ 기본 지원                        | ✅ 기본 지원                  | ✅ 기본 지원                    | ✅ 기본 지원 (기본적으로 동적 import를 통해 자동으로 code splitting 처리됨. Rollup을 사용해 빌드하기 때문에, build.rollupOptions 옵션으로 세밀히 제어 가능)                     |
-| **번들(dist 폴더) 크기(MB)** | 3.4 | 3.1 | 2.9 |  | 3.1 |
-| **메인 JS 번들 크기(KiB)** | 180 | 179 | 181 |  | 172 |
-| **Chunk(Splitted) JS 크기(bytes)** | 248 | 163 | 190 |  | 198 |
-| **index.html 크기(bytes)** | 329 | 331 | 326 |  | 455 |
-| **CSS 크기(bytes)** | 161 | 148 | 149 |  | 149 |
-| **이미지 크기(MiB)**  | 2.71 | 2.71 | 2.71 |  | 2.71 |
-| **평균 user mode 작업 시간(s)** | 7.47 | 7.72 | 0.70 |  | 2.72 |
-| **평균 system mode 작업 시간(s)** | 0.47 | 0.60 | 0.14 |  | 0.24 |
-| **평균 CPU 사용률(%)** | 189 | 201 | 120 |  | 131 |
-| **평균 전체 실행 시간(s)** | 4.205 | 4.123 | 0.714 |  | 2.270 |
-| **Configuration 길이 (LoC)** | 57 | 73 | 58 |  | 44 |
+| 항목                        | Webpack                     | Rollup                          | esbuild                    | Vite                          |
+| --------------------------- | --------------------------- | ------------------------------- | -------------------------- | ----------------------------- |
+| **버전(version)**            | ✔️ 5.97.1 | ✔️ 4.34.1 | ✔️ 0.24.2 | ✔️ 6.0.11 |
+| **TypeScript 지원**          | ✅ 기본 지원   | 🔼 플러그인 필요 (rollup/plugin-typescript) | ✅ 기본 지원                  | ✅ 기본 지원                     |
+| **React 지원**  | ✅ 기본 지원   | 🔼 플러그인 필요 (rollup/plugin-typescript) | ✅ 기본 지원  | 🔼 플러그인 필요 (@vitejs/plugin-react)                     |
+| **JSON 처리**         | ✅ 기본 지원  | 🔼 플러그인 필요 (rollup-plugin-json) | ✅ 기본 지원                  | ✅ 기본 지원 (따로 설정할 필요 없음)   |
+| **이미지 처리**              | ✅ 원래는 로더(file-loader, url-loader)가 필요했으나 v5부터는 내장된 [asset-modules](https://webpack.kr/guides/asset-modules/)로 가능! | 🔼 플러그인 필요 (rollup/plugin-image, rollup/plugin-url, rollup/plugin-image-files) | ✅ 기본 지원 | ✅ 기본 지원 (따로 설정할 필요 없음)                     |
+| **CSS 전처리기 처리**                 | 🔼 로더 필요 (sass-loader, css-loader) | 🔼 플러그인 필요 (rollup-plugin-postcss) | 🔼 플러그인 필요 (esbuild-sass-plugin) | ✅ 기본 지원 (esbuild 기반)      |
+| **Tree-shaking**             | ✅ 기본 지원    | ✅ 기본 지원                        | ✅ 기본 지원                  | ✅ 기본 지원 (ES 모듈을 지원하기 때문에 tree shaking이 기본적으로 활성화되어 있어서 따로 설정 필요 없음, minify 옵션으로 제어 가능)                    |
+| **Code-splitting**      | ✅ 기본 지원   | ✅ 기본 지원                        | ✅ 기본 지원                  | ✅ 기본 지원 (기본적으로 동적 import를 통해 자동으로 code splitting 처리됨. Rollup을 사용해 빌드하기 때문에, build.rollupOptions 옵션으로 세밀히 제어 가능)                     |
+| **번들(dist 폴더) 크기(MB)** | 3.4 | 3.1 | 2.9 | 3.1 |
+| **메인 JS 번들 크기(KiB)** | 180 | 179 | 181 | 172 |
+| **Chunk(Splitted) JS 크기(bytes)** | 248 | 163 | 190 | 198 |
+| **index.html 크기(bytes)** | 329 | 331 | 326 | 455 |
+| **CSS 크기(bytes)** | 161 | 148 | 149 | 149 |
+| **이미지 크기(MiB)**  | 2.71 | 2.71 | 2.71 | 2.71 |
+| **평균 user mode 작업 시간(s)** | 7.47 | 7.72 | 0.70 | 2.72 |
+| **평균 system mode 작업 시간(s)** | 0.47 | 0.60 | 0.14 | 0.24 |
+| **평균 CPU 사용률(%)** | 189 | 201 | 120 | 131 |
+| **평균 전체 실행 시간(s)** | 4.205 | 4.123 | 0.714 | 2.270 |
+| **Configuration 길이 (LoC)** | 57 | 73 | 58 | 44 |
 
 <!-- TODO: | **최적화 지원(JS, CSS, assets 파일 압축 및 최적화)** | | | | | | -->
 <!-- TODO: | **HMR 지원(개발 모드에서만 테스트 가능)** | 기본 지원 | 플러그인 필요 (rollup-plugin-hot) | 플러그인 필요 (esbuild-plugin-hmr) | 기본 지원 | 기본 지원 | -->
