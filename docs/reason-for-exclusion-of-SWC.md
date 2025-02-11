@@ -221,10 +221,11 @@ SWC의 `spack` 설정파일은 기본적으로 CJS 모듈 시스템을 사용한
 
 ## 📌 SWC 기반 번들러: Turbopack (Beta)
 - Turbopack의 경우에는 SWC 기반으로 개발되고 있는 번들러로, Next.js 자체에 내장되어 있음! 하지만, 아직까지 Turbopack은 베타버전이기에 지원되지 않는 기능들이 좀 많은 것 같다. 공식문서를 보면 현재 `next dev`만 지원하며 `next build`는 지원하지 않는다고 한다. (하지만 안전성 향상을 위해 빌드 지원 작업을 현재 진행 중이라고 한다.) 그렇기 때문에 개발 모드가 아닌 프로덕션 빌드 모드에서 번들러를 비교를 하는 본 프로젝트에서는 제대로 평가할 수 있는 방법이 없어서 Turbopack을 추가로 비교하지 않기로 했다.
-
 - **최종 결론:** SWC에서도 남은 주요 번들링 기능은 Turbopack에 포팅 작업중이라고 하니 좀 더 기다려봐야겠다!
+- [Is TurboPack using SWC under the hood ? #2350](https://github.com/vercel/turborepo/discussions/2350)
 
 ## 📌 참고 자료
 - [GitHub swc-project](https://github.com/swc-project/swc)
 - [swc 공식 홈페이지](https://swc.rs/)
 - [swc와 웹 개발의 미래 - 강동윤 | Vercel 발표](https://www.youtube.com/watch?v=4RJxyGJQe4o)
+- [NextJS Compiler - SWC](https://nextjs-ko.org/docs/architecture/nextjs-compiler)
