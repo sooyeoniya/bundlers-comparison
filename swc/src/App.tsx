@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import testData from './test.json';
 // import image from './my-pet.jpg';
 import { add } from './math';
-import './main.scss';
+// import './main.scss';
 
 const LazyComponent = React.lazy(() => import('./LazyComponent'));
 

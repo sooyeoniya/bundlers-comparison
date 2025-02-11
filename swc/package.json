@@ -7,9 +7,9 @@
     "build:bundle": "spack",
     "build:css": "sass src/main.scss dist/main.css --no-source-map --style compressed",
     "build:html": "node scripts/process-html.js",
-    "build:assets": "cp src/*.{jpg,jpeg,png,gif,svg} dist/ 2>/dev/null || true",
+    "build:assets": "cp src/index.html dist/ && cp src/*.{jpg,jpeg,png,gif,svg} dist/ 2>/dev/null || true",
     "clean": "rm -rf dist/*"
-  },  
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

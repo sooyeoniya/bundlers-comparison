@@ -35,6 +35,13 @@
   "sourceMaps": false,
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    ".*\\.scss$",
+    ".*\\.sass$",
+    ".*\\.png$",
+    ".*\\.jpg$",
+    ".*\\.jpeg$",
+    ".*\\.gif$",
+    ".*\\.svg$"
   ]
 }
