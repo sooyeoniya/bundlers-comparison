@@ -5,6 +5,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 // Webpack 5 이상에서는 mode: "production"을 설정하면 자동으로 코드가 minify 됨. 
 // const TerserPlugin = require('terser-webpack-plugin'); -> TerserPlugin을 설정하면 추가적인 최적화 옵션 적용 가능
+// TODO: ESM 적용해서 mjs 파일로 변경하여 성능 테스트
 
 module.exports = {
   mode: 'production',
